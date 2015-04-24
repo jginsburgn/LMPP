@@ -1,0 +1,720 @@
+\documentclass[11pt, b5paper, oneside]{book}
+
+% This first part of the file is called the PREAMBLE. It includes
+% customizations and command definitions. The preamble is everything
+% between \documentclass and \begin{document}.
+
+\usepackage[top=1in, bottom=1in, left=0.5in, right=0.7in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{glossaries} %The steps in compiling are supposed to be: XeLaTeX + BibTeX + glossary_make + XeLaTEx
+
+
+%the glossary_make.engine has the following code:
+
+%#!/bin/sh
+
+%bfname=$(dirname "$1")/"`basename "$1" .tex`"
+
+%makeindex -s "$bfname".ist -t "$bfname".alg -o "$bfname".acr "$bfname".acn
+%makeindex -s "$bfname".ist -t "$bfname".glg -o "$bfname".gls "$bfname".glo
+%-----
+
+
+% various theorems, numbered by chapter
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[subsection]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\DeclareMathOperator{\id}{id}
+
+\def\sectionautorefname{\S}
+
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\UU}{\mathbb{U}}      % for universe
+\newcommand{\NN}{\mathbb{N}}      % for Natural numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integer numbers
+\newcommand{\PP}{\mathbb{P}}      % for prime numbers
+\newcommand{\QQ}{\mathbb{Q}}      % for Rational numbers
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\CC}{\mathbb{C}}      % for complex numbers
+\newcommand{\A}{\mathbf{A}}      % for set notation of A
+\newcommand{\B}{\mathbf{B}}      % for set notation of B
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+
+
+%Escribir la precedencia de operadores en general (en expresiones en las que hay operadores lógicos, matemáticos ,etc.).
+%agregar la definición de los operandos matemáticos para los números reales y no solo los naturales
+%redefinir la clasificación de los números
+
+\begin{document}
+
+\nocite{*}
+
+\frontmatter
+
+\title{Logic, Mathematics, Physics and Philosophy}
+
+\author{Jonathan Ginsburg}
+
+\date{September 22, 2014}
+
+\maketitle
+
+\chapter*{\centerline{Prologue}}
+The title of the present text was thought to convey the order of increasing complexity of the mentioned concepts, which will be discussed throughout. However, we recognize that philosophy is more fundamental than the other three, but we placed it at the end due to the scope of book and the specificity of its orientation. 
+
+This treatise has two objectives, which correspond to personal thought clarification and note taking. These are notation and diction reference in logic, mathematics, physics, and philosophy; and the elaboration of selected topics related to the mentioned fields of study.
+
+Throughout this text, when logic is mentioned it refers to Classical Logic, which dates back to Aristotle as perceived from his Organon. This formal discipline differs from other formal logics (e.g. Fuzzy Logic) in its foundational laws. They are called The Three Classical Laws of Thought. In Latin they are: Omne quod est, est; Nihil potest esse et non esse; and, Aut est aut non omne. The first is the Identity Law, from which we understand that everything is logically equivalent to itself. The second is the Law of Noncontradiction, which states that nothing can be (true) and not be (true) under the same circumstances. The last one is The Law of the Excluded Middle, which says that everything either is (true) or is not (true) \cite{boole}.
+
+In the first chapter a few terms are clarified using natural language.
+
+\vspace{1cm}
+
+\begin{flushright}
+Begun on October 6, 2014.
+
+J.G.
+\end{flushright}
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{Glossary}
+
+This chapter must serve as a convention establishment of language between the text and the reader. It is in the form of a glossary and divided in four parts: General, Logic, Mathematics and Physics. The order of terms does not correspond to the alphabet. Instead it follows that of increasing complexity, namely, basic terms come first. Let us agree that fundamental words cannot be explained, but come naturally to the human thought.
+
+\section{General}\label{Glossary:General}
+
+\begin{itemize}
+\item Definition: human assignment of meaning to a statement, concept or expression.
+\item Formal: that allows no ambiguity.
+\item Logic: formalization of human understanding and reasoning.
+\item Abstract: human artifice to explain, from within, the external; an approximation to Plato's Theory of Ideas.
+\item Theory: abstract thought for explaining.
+\item Fundamental: the starting point for building a theory. 
+\item Primitive notion: fundamental abstraction, which cannot be defined through other concepts.
+\item Mathematics: the logic of measurements, count, sets, groups, et. al.
+\item Symbol: glyph used to externalize and record knowledge, understanding and reasoning.
+\item Valid: follows established rules.
+\item Operator: tool that builds an instance, called the return value, out of other instances, called operands.
+\item Unary operator: operator that uses one instance to build a new one.
+\item Binary operator: operator that uses two instances to build a new one.
+\item Order of precedence: a defined sequential hierarchy of operator applications to an expression containing more than one operator.
+\end{itemize}
+
+\section{Logic}
+
+\begin{itemize}
+\item Truth value: true or false.
+\item Proposition: statement with truth value.
+\item Predicate (Propositional function): statement that has unspecified variables, to which a truth value can be assigned if the unspecified becomes specified.
+\item Logical operator: tool that returns a new proposition, often called molecular proposition, out of a given number of propositions, often called atomic propositions, on which it operates.
+\item Truth table: table that indicates the truth value of the proposition obtained through the application of a logical operator, or a combination of these, over all the possible permutations of the truth values of the operated propositions.
+\item Tautology: (1) proposition that always has a truth value of true; (2) molecular proposition that has a truth table of true values for all the possible permutations of truth values of the given atomic propositions that are operated on.
+\item Absurd: (1) proposition that always has a truth value of false; (2) molecular proposition that has a truth table of false values for all the possible permutations of truth values of the given atomic propositions that are operated on.
+\item Conditional proposition: a proposition obtained through the application of the conditional logical binary operator.
+\item Rule of Inference: elaborated, and often named, conditional proposition that is a tautology, which always establishes true consequences out of true premises.
+\item Reasoning: logically formal and correct procedure of the application of rules of inference to a collection of premises.
+\item Argumentation: explicit reasoning; usually written.
+\item Proof: argumentation that ends in a specific, desired proposition.
+\item Conclusion: proposition obtained through a proof.
+\item Logical indicator: a symbol that alludes to logical operators and/or proofs.
+\item Logical equivalence: (1) the characteristic of two propositions that refer to the same thing (i.e. two names for the same abstraction); (2) property of two propositions that always coincide in their truth value.
+\item Logical definition: (1) human assignment of logical equivalence to a pair of propositions; (2) human assignment of name to a variable or variables of a predicate, if such predicate results true.
+\item Logical definition of truth value: human assignment of truth value to a given proposition.
+\item Axiom: human postulated proposition that generally appeals to the intuition.
+\item Theorem: often named, notable conclusion based on axioms.
+\item Corollary: conclusion based on theorems.
+\item Lemma: a logically indicated proposition used in an argument, as part of the premises.
+\end{itemize}
+
+\section{Mathematics}
+
+\subsection{Generalities}
+
+\begin{itemize}
+\item Numerical value: a primitive notion of measurement or count.
+\item Number: a symbol that has numerical value.
+\item Scalar: a number.
+\item Mathematical object: number, set, vector, scalar, etc.
+\item Mathematical value: (1) numerical value; (2) primitive notion of essence of a mathematical object.
+\item Numerical definition: (1) human assignment of numerical value to a number; (2) human assignment of mathematical value to a mathematical object.
+\item Numerical equivalence: the characteristic of two numbers that have the same numerical value (i.e. two symbols for the same count or measurement).
+\item Arithmetical operator: tool that returns a number out of a given count of numbers.
+\item Logical-numerical operator: tool that returns a proposition out of a given count of numbers.
+\end{itemize}
+
+\subsection{Set Theory}
+
+\begin{itemize}
+\item Set Theory: the branch of mathematics that studies sets.
+\item Set: a primitive notion of a collection of distinct mathematical objects, called elements \cite[cfr. Preliminary Notions]{herstein}.
+\item Set operator: tool that returns a set out of a given number of sets.
+\item Logical-set operator: tool that returns a proposition out of a given number of sets.
+\item Numerical-set operator: tool that returns a number out of a given number of sets.
+\item Logical-mathematical operator: logical-set or logical-numerical operator.
+\item Universe: a primitive notion of a set containing all the instances in nature.
+\end{itemize}
+
+\subsection{Number Classification}
+
+Missing...\autoref{Glossary:General}
+%\begin{itemize}
+%\item Natural Numbers: primitive notion of the set of counting and ordering numbers (i.e. $\{1,2,3,\cdots\}$).
+%\item Integers: primitive notion of the set of whole numbers, which include number zero and the negative naturals (i.e. $\{\cdots,-3,-2,-1\} \cup \{0\} \cup \NN$).
+%\item Real Numbers: primitive notion of the set of all numbers (i.e. the set containing any element that has numerical value).
+%\item Prime Numbers: set of all numbers that cannot be expressed as a product of two other naturals, different from such number and greater than one (i.e. $\{ x \in \NN \ | \ (\forall a)( a \in \NN \setminus \{1, x\} \to \frac{x}{a} \notin \NN)\}$ ).
+%\item Rational Numbers: set of all fractional and irreducible numbers (i.e. $\{x \in \RR \ | \ (\exists a, b)(x=\frac{a}{b} \land [(|a| \in \PP \land |b| \in \PP) \lor (|a| \in \PP \land |b| \in \NN \land (\nexists n)(n \in \NN \land |b|=n\times |a|)) \lor (|b| \in \PP \land |a| \in \NN \land (\nexists n)(n \in \NN \land |a|=n\times |b|)) ]\}$ ).
+%\item Irrational Numbers: set of all real numbers that are not fractional and irreducible (i.e. $\{x \in \RR \ | \ x \notin \QQ\}$).
+%\end{itemize}
+
+\subsection{Geometry}
+
+\begin{itemize}
+\item Geometry: branch of mathematics that studies figures' shape, relative position and size.
+\item Coordinate: a number used to specify the place of a point in a space.
+\item Point: a primitive notion of a dimensionless geometrical object, of which a place in a space can be given with the use of coordinates.
+\item Dimension [of a space or object]: the minimum number of coordinates needed to specify a point within it.
+\item Origin: the point where normal axes for coordinate description join.
+\item Line: a collection of continuous points that builds a single-dimensional space.
+\item Length: the magnitude of the difference between the two coordinates of the endpoints of a figure in single-dimensional space.
+\item Plane: two-dimensional space.
+\item Angle (Planar angle): the amount of opening of two lines or planes that intersect; measured with radians.
+\item Radian: the length of an arc, delimited by the intersection of two lines or planes of which the angular measure is to be given, of a unitary circle with center positioned at a point where the two lines or planes join.
+\item Solid Angle: the amount of opening of two lines that join at a reference point, of which each comes from an extremity of a certain object in three-dimensional space; measured with steradians.
+\item Steradian: the surface area of a unitary sphere, centered at a reference point, described by a cone's, built with vertex at the reference point and the lines to which a solid angular measurement is to be given, intersection with it.
+\item Magnitude: a positive number.
+\item Direction: a planar angle.
+\item Sense: positive or negative sign.
+\item Vector: a geometrical object that is described through two properties, namely, a sensed magnitude and a collection of directions.
+\end{itemize}
+
+\subsection{Maps}
+
+\begin{itemize}
+\item Map: rule that assigns mathematical objects to a given number of other mathematical objects.
+\item Function: a map that assigns a unique mathematical object to a given number of other mathematical objects.
+\end{itemize}
+
+\section{Physics}
+
+\subsection{Generalities}
+
+\begin{itemize}
+\item Phenomenon: any event in nature.
+\item Mass: property of instances of nature that oppose acceleration and allow gravitational interaction.
+\item Space: the, hitherto assumed infinite, three-dimensional scenario where phenomena take place.
+\item Reference frame: an arbitrary selection of a spatial point used for geometrical descriptions of phenomena.
+\item Matter: anything in the universe that occupies space and has mass.
+\item Body: finite-sized matter.
+\item Position: a vector that goes from a reference frame to a point particle or a body's center of mass.
+\item Center of mass: the mass weighted vectorial mean of positions of point particles that build a body.
+\item Velocity: the change of position in time.
+\item Acceleration: the change of velocity in time.
+\item Inertial reference frame: a reference frame that has no change in its velocity.
+\item Momentum: the amount of movement that a body has; mathematically defined as mass times velocity.
+\item Force: the change of momentum in time.
+\item Fundamental Interactions: the most fundamental forces known (i.e. gravitational, electromagnetic, weak nuclear and strong nuclear).
+\end{itemize}
+
+\chapter{Notation Conventions}
+
+Although any symbol can be used for unspesified instances of logic, mathematics and physics, there are certain conventions that help with avoiding confusion. In this book, this notation conventions will be followed, unless specified otherwise.
+
+\section{Logic}
+
+\subsection{General Instances}
+
+\begin{itemize}
+\item Proposition: represented with lower-case, Greek letters (e.g. $\chi$).
+\item Predicate or propositional function: represented with a lower-case, Greek letter followed by a parenthesis containing a list (separated by commas) of Roman, lower-case letters that represent the unspecified variables (e.g. $\chi (x, y, z)$).
+\end{itemize}
+
+\subsection{Specific Instances}
+
+\begin{itemize}
+\item Tautology: $T_0$.
+\item Absurd: $F_0$.
+\item True: $\top$ (\LaTeX 's code is \verb|\top|) or $T$. 
+\item False: $\bot$ (\LaTeX 's code is \verb|\bot|) or $F$.
+\end{itemize}
+
+\section{Mathematics}
+
+\subsection{General Instances}
+
+\begin{itemize}
+\item Set: represented with capitalized, bold Roman letters (e.g. $\A$).
+\item Number: represented with a Roman, lower-case, stylized letter (e.g. $x$).
+\item Angle: represented with lower-case, Greek letters (e.g. $\alpha$).
+\item Solid Angle: represented with upper-case, Greek letters (e.g. $\Omega$).
+\item Vector: represented with Greco-Roman letters with a right-pointing arrow above (e.g. $\vec{v}$); \LaTeX 's code is \verb|\vec{v}|.
+\item Function: represented with Roman, stylized letters, usually beginning with $f$ and forward (e.g. $f, g, h,$ etc.).
+\end{itemize}
+
+\subsection{Constants and Specific Instances}
+
+\subsubsection{Geometry and Algebra}
+\begin{itemize}
+\item Ratio of a circle's circumference to its diameter: $\pi \approx 3.141592$.
+\item Imaginary unit: $i := \sqrt{-1}$.
+\end{itemize}
+
+\subsubsection{Set Theory}
+\begin{itemize}
+\item Universe: $\mathbb{U}$.
+\end{itemize}
+
+\subsubsection{Number Classification}
+\begin{itemize}
+\item Natural Numbers: $\NN$.
+\item Integers: $\ZZ$, due to their name in German (i.e. Zahlen).
+\item Real Numbers: $\RR$.
+\item Prime Numbers: $\PP$.
+\item Rational Numbers: $\QQ$.
+\item Irrational Numbers: $\QQ'$.
+\end{itemize}
+
+\section{Physics}
+
+\subsection{Constants and Specific Instances}
+
+\subsubsection{Mechanics}
+
+\begin{itemize}
+\item Position: $\vec{r}$.
+\item Velocity: $\vec{v}$.
+\item Acceleration: $\vec{a}$.
+\item Angular velocity: $\vec{\omega}$.
+\end{itemize}
+
+\subsubsection{Physical Constants}
+
+\begin{itemize}
+\item Gravitational constant: $G \approx 6.67 \times 10^{-11} [\mathrm{\frac{N \cdot m^2}{kg^2}}]$.
+\end{itemize}
+
+\chapter{Symbology and Notation}
+
+\section{Logic}
+
+\subsection{Logical Definition}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$\chi :\iff \psi$ & Logical definition for propositions $\chi$ and $\psi$ (i.e. $\chi$ and $\psi$ are names for the same thing, ergo $\chi \longleftrightarrow \psi$ is a tautology) & \verb|:\iff| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Propositional Logical Operators}
+
+Logical operators, listed in order of precedence, of which each has a defined truth table.
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$\neg \chi$ & Operator for the negated proposition $\chi$ & \verb|\neg| \\
+\hline
+$\chi \land \psi$ & Operator for the conjunction of propositions $\chi$ and $\psi$ & \verb|\land| \\
+\hline
+$\chi \lor \psi$ & Operator for the disjunction of propositions $\chi$ and $\psi$ & \verb|\lor|\\
+\hline
+$\chi \ \lor! \ \psi$ & Operator for the exclusive disjunction of propositions $\chi$ and $\psi$ & \verb|\ \lor! \|\\
+\hline
+$\chi \to \psi$ & Operator for the conditional of premises or antecedents $\chi$ to consequences or conclusions $\psi$ & \verb|\to| \\
+\hline
+$\chi \longleftrightarrow \psi$ & Operator for the logical equivalence of propositions $\chi$ and $\psi$ (i.e. $\chi \longleftrightarrow \psi :\iff \chi \to \psi \land \psi \to \chi$) & \verb|\longleftrightarrow| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Logical Quantifiers}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$(\forall x)(\chi (x))$ & Proposition that affirms that for every $x$ in the universe, $\chi (x)$ is true & \verb|\forall| \\
+\hline
+$(\exists x)(\chi (x))$ & Proposition that affirms that there exists at least one $x$ in the universe, for which $\chi (x)$ is true & \verb|\exists| \\
+\hline
+$(\exists ! x)(\chi (x))$ & Proposition that affirms that there exists only one $x$ in the universe, for which $\chi (x)$ is true & \verb|\exists !| \\
+\hline
+$(\nexists x)(\chi (x))$ & Proposition that affirms that there does not exist an $x$ in the universe, for which $\chi (x)$ is true (i.e. $\neg (\exists x)(\chi (x))$ ) & \verb|\nexists| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Nested Logical Quantifiers}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$(\forall x, y, \cdots)(\chi (x, y, \cdots))$ & Proposition that affirms that for every combination of $x, y, \cdots$ in the universe, $\chi (x, y, \cdots)$ is true & \verb|\forall| \\
+\hline
+$(\exists x, y, \cdots)(\chi (x, y, \cdots))$ & Proposition that affirms that there is at least a combination $x, y, \cdots$ in the universe, for which $\chi (x, y, \cdots)$ is true & \verb|\exists| \\
+\hline
+$(\exists ! x, y, \cdots)(\chi (x, y, \cdots))$ & Proposition that affirms that there is only one combination $x, y, \cdots$ in the universe, for which $\chi (x, y, \cdots)$ is true & \verb|\exists !| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Logical Indicators}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$\chi \implies \psi$ & Logical indicator that alludes to $\chi \to \psi$ being true, without showing explicitly how & \verb|\implies| \\
+\hline
+$\chi \models \psi$ & Logical indicator that alludes to $\chi \to \psi$ being true, without showing explicitly how & \verb|\models| \\
+\hline
+$\chi \vdash_i \psi$ & Logical indicator that alludes to $\chi \to \psi$ being true, which is obtained through proof $i$ & \verb|\vdash_i| \\
+\hline
+$\chi \iff \psi$ & Logical indicator that alludes to $\chi \longleftrightarrow \psi$ being true, without showing explicitly how & \verb|\iff| \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Mathematics}
+
+\subsection{Numerical Definition}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$x := y$ & Numerical definition for symbol $x$ and number $y$ (i.e. $x$ is defined to have the same numerical value as $y$) & \verb|:=| \\
+\hline 
+\end{tabular}
+\end{center}
+
+\subsection{Arithmetical Operators}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$x + y$ & Addition that returns $x+y$, the sum of numbers $x$, the augend, and $y$, the addend & \verb|+| \\
+\hline
+$x - y$ & Subtraction that returns $x-y$, the difference of numbers $x$, the minuend, and $y$, the subtrahend & \verb|-| \\
+\hline
+$x \times y$ & Multiplication that returns $x \times y$, the product of numbers $x$, the multiplicand, and $y$, the multiplier (i.e. $x \times y := \underbrace{y+y+\cdots+y}_{\text{$x$ times}}$) & \verb|\times| \\
+\hline
+$x \div y$ or $\frac{x}{y}$ & Division that returns $x \div y$, the quotient of numbers $x$, the numerator or dividend, and $y$, the denominator or divisor (i.e. $ (x \times y) \div y = x :\iff \underbrace{y+y+\cdots+y}_{\text{$x$ times}} = x \times y$) & \verb|\div or \frac{x}{y}| \\
+\hline
+$x^y$ & Exponentiation that returns $x^y$, the power of number $x$, the base, to number $y$, the exponent (i.e. $x^y := \underbrace{x \times x \times \cdots \times x}_{\text{$y$ times}}$) & \verb|^| \\
+\hline
+$\sqrt[y]{x}$ or $x^{\frac{1}{y}}$ & $y$-th root that returns $\sqrt[y]{x}$, the $y$ degree root of number $x$, the radicand (i.e. $ \sqrt[y]{x^y}=x :\iff \underbrace{x \times x \times \cdots \times x}_{\text{$y$ times}} = x^y$) & \verb|\sqrt[y]{x}| \\
+\hline
+$\sqrt{x}$ & Square root of number $x$ (i.e. $\sqrt[2]{x}$) & \verb|\sqrt{}| \\
+\hline
+$|x|$ & Absolute value of number $x$ (i.e. $\sqrt{x^2}$) & $|$\verb|x|$|$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Logical-Numerical Operators}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$x > y$ & Number $x$ is greater than number $y$, which is logically equivalent to $y < x$ & \verb|>| \\
+\hline
+$x < y$ & Number $x$ is smaller than number $y$, which is logically equivalent to $y > x$ & \verb|<| \\
+\hline
+$x = y$ & Number $x$ is equal to number $y$ & \verb|=| \\
+\hline
+$x \approx y$ & Number $x$ is relatively approximately equal to number $y$ & \verb|\approx| \\
+\hline
+$x \geq y$ & $x > y \ \lor ! \ x=y$ & \verb|\geq| \\
+\hline
+$x \leq y$ & $x < y \ \lor ! \ x=y$ & \verb|\leq| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Set Definition}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$\A := \B$ & Set definition for sets $\A$ and $\B$ (i.e. $\A$ is a set built with the same elements as $\B$) & \verb|:=| \\
+\hline 
+\end{tabular}
+\end{center}
+
+\subsection{Logical-Set Operators}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$x \in \A$ & Element $x$ belongs to $\A$ & \verb|\in| \\
+\hline
+$x,y, \cdots \in \A$ & Elements $x, y, \cdots$ belong to $\A$ & \verb|\in| \\
+\hline
+$x \notin \A$ & Element $x$ does not belong to $\A$ (i.e. $\neg (x \in \A)$) & \verb|\notin| \\
+\hline
+$\A = \B$ & Set $\A$ is equal to set $\B$ (i.e. $(\forall x)(x \in \A \longleftrightarrow x \in \B)$ is true) & \verb|=| \\
+\hline
+$\A \subset \B$ & $\A$ is a subset of $\B$ (i.e. $(\forall x)(x \in \A \to x \in \B)$) & \verb|\subset| \\
+\hline
+$\A \supset \B$ & $\A$ is a superset of $\B$ (i.e. $(\forall x)(x \in \B \to x \in \A)$) & \verb|\supset| \\
+\hline
+$\A \subseteq \B$ & $\A \subset \B \lor \A = \B$ & \verb|\subseteq| \\
+\hline
+$\A \supseteq \B$ & $\A \supset \B \lor \A = \B$ & \verb|\supseteq| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Set Operators}
+
+Listed in their order of precedence.
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$\{x \in \A \ | \ \chi (x)\}$ & Set operator that builds a new set, which contains all elements $x$ that give a truth value of true for the propositional function $\chi(x) \land x \in \A$. Note that if no $\A$ is specified, then it is assumed that $\A =  \mathbb{U}$. & \verb|{| $|$ \verb|}| \\
+\hline
+$\{x_1, x_2, \cdots, x_n \}$ & Set operator that builds a new set, containing elements $x_1, x_2, \cdots, x_n$ & \verb|{ \cdots }| \\
+\hline
+$\A \setminus \B$ & Set subtraction (i.e. $\{x \in \A \ | \ x \notin \B\}$) & \verb|\setminus| \\
+\hline
+$\A \cup \B$ & Set union (i.e. $\{x \ | \ x \in \A \lor x \in \B\}$) & \verb|\cup| \\
+\hline
+$\A \cap \B$ & Set intersection (i.e. $\{x \ | \ x \in \A \land x \in \B\}$) & \verb|\cap| \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Logical Map Notation}
+
+\begin{center}
+\begin{tabular}{|c|p{8cm}|c|}
+\hline
+\textbf{Symbols} & \textbf{Definition} & \textbf{\LaTeX \ Code}\\
+\hline
+\hline
+$f: x \mapsto y$ & There is a map $f$, which assigns mathematical objects $y$ to mathematical objects $x$, the parameters & \verb|f: x \mapsto y| \\
+\hline
+$f: \A \to \B$ & There is a map $f$, which assigns elements,mathematical objects, of $\A$, the domain, to elements,mathematical objects, of $\B$, the codomain or image & \verb|\to| \\
+\hline
+$f(x)$ & There is a map $f$, which assigns mathematical objects $f(x)$ to mathematical objects $x$, the parameters & \verb|f(x)| \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Axioms}
+
+\section{Mathematics}
+
+\subsection{Properties of $\RR$}
+
+\subsubsection{Identity}
+\begin{itemize}
+\item I) Identity $(\forall a)(a \in \RR \to a=a)$.
+\end{itemize}
+
+\subsubsection{Addition}
+\begin{itemize}
+\item A0) Symmetry of the Addition $(\forall a, b, c)(a, b, c \in \RR \land a = b \to a+c=b+c)$.
+\item A1) Stability or Closure of the Addition over $\RR$ $(\forall a, b)(a,b \in \RR \to (\exists ! (a + b))(a + b \in \RR))$.
+\item A2) Associativity $(\forall a, b, c)(a,b,c \in \RR \to (a+b)+c=a+(b+c))$.
+\item A3) Addition Neuter $(\forall a)(a \in \RR \to (\exists ! 0)(0 \in \RR \land a+0 = a))$.
+\item A4) Addition Inverse $(\forall a)(a \in \RR \to (\exists ! (-a))((-a)\in \RR \land a+(-a)=0))$.
+\item A5) Commutativity $(\forall a,b)(a,b \in \RR \to a+b=b+a)$.
+\end{itemize}
+
+\subsubsection{Multiplication}
+\begin{itemize}
+\item M0) Symmetry of the Multiplication $(\forall a, b, c)(a, b, c \in \RR \land a = b \to a·c=b·c)$.
+\item M1) Stability or Closure of the Multiplication over $\RR$ $(\forall a, b)(a,b \in \RR \to (\exists ! (a · b))(a · b \in \RR))$.
+\item M2) Associativity $(\forall a, b, c)(a,b,c \in \RR \to (a·b)·c=a·(b·c))$.
+\item M3) Multiplication Neuter $(\forall a)(a \in \RR \to (\exists ! 1)(1 \in \RR \land a·1 = a))$.
+\item M4) Multiplication Inverse $(\forall a)(a \in \RR \land \neg(a = 0) \to (\exists ! (a^{-1}))((a^{-1})\in \RR \land a·(a^{-1})=1))$.
+\item M5) Commutativity $(\forall a,b)(a,b \in \RR \to a·b=b·a)$.
+\end{itemize}
+
+\subsubsection{Distributivity}
+\begin{itemize}
+\item AM) Distributivity $(\forall a, b, c)(a,b,c \in \RR \to a · (b + c) = ab + ac)$.
+\end{itemize}
+
+\subsubsection{Ordering}
+Note: $(\forall x)(x \in \PP :\iff x \in \RR \land x > 0)$. We call $\PP$ the real positives in this sub subsection.
+\begin{itemize}
+\item Or1) Trichotomy $(\forall a)(a \in \RR \to a = 0 \ \lor ! \ a > 0 \ \lor ! \ a < 0)$.
+\item Or2) Closure of the Addition over $\PP$ $(\forall a, b)(a,b \in \PP \to a+b \in \PP)$.
+\item Or3) Closure of the Multiplication over $\PP$ $(\forall a, b)(a,b \in \PP \to a·b \in \PP)$.
+\end{itemize}
+
+\chapter{Definitions}
+
+\section{Mathematics}
+
+\begin{definition}
+$(\forall a,-b)(a,-b \in \RR \to a-b:=a+(-b))$
+\end{definition}
+
+\chapter{Proof Compendium}
+
+\section{Mathematics}
+
+As we progress in the number of proofs of this section, more rules of inference, definitions and axioms will be considered implicit.
+
+\subsection{First Order Theorems for $\RR$}
+
+\begin{thm}
+\label{0x=0}
+$(\forall x)(x \in \RR \to 0·x=0)$
+\end{thm}
+
+\begin{proof}
+
+\
+
+\begin{enumerate} \itemsep0em \parskip0pt \parsep0pt
+	\item $x \in \RR$, premise.
+	\begin{enumerate}[label*=\arabic*.] \itemsep0em \parskip0pt \parsep0pt
+		\itemsep0em
+		\item $(\forall a)(a \in \RR \to (\exists ! 0)(0 \in \RR \land a+0 = a))$, A3.
+		\item $x \in \RR \to (\exists ! 0)(0 \in \RR \land x+0 = x)$, Universal Specification of 1.1 with $(x/a)$.
+		\item $(\exists ! 0)(0 \in \RR \land x+0 = x)$, Modus Ponendo Ponens (MP) of 1.2 and 1.
+		\item $0 \in \RR \land x+0 = x$, Existential Specification of 1.3.
+		\item $0 \in \RR$, Simplification of 1.4.
+		\item $x+0 = x$, Simplification of 1.4.
+		\item $x, 0 \in \RR$, Conjunction of 1.5 and 1.
+		\item $(\forall a, b)(a,b \in \RR \to (\exists ! (a · b))(a · b \in \RR))$, M1.
+		\item $x,0 \in \RR \to (\exists ! (x · 0))(x · 0 \in \RR)$, Universal Specification of 1.8 with $(x/a, 0/b)$.
+		\item $(\exists ! (x · 0))(x · 0 \in \RR)$, Modus Ponendo Ponens (MP) of 1.7 and 1.9.
+		\item $x · 0 \in \RR$, Existential Specification of 1.10.
+		\item $(\forall a)(a \in \RR \to a=a)$, Identity (I).
+		\item $x0 \in \RR \to x0=x0$, Universal Specification of 1.12 with $(x0/a)$.
+		\item $x0=x0$, Modus Ponendo Ponens (MP) of 1.11 and 1.13.
+		\item $(\forall a, b, c)(a, b, c \in \RR \land a = b \to a+c=b+c)$, A0.
+		\item $x0 \in \RR \land x0 = x0 \to x0+x0=x0+x0$, Universal Specification of 1.15 with $(x0/a, x0/b, x0/c)$.
+		\item $x0 \in \RR \land x0 = x0$, Conjunction of 1.11 and 1.14.
+		\item $x0+x0=x0+x0$, Modus Ponendo Ponens (MP) of 1.16 and 1.17.
+		\item $(\forall a, b, c)(a,b,c \in \RR \to a · (b + c) = ab + ac)$, AM.
+		\item $x,0 \in \RR \to x · (0 + 0) = x0 + x0$, Universal Specification of 1.19 with $(x/a, 0/b, 0/c)$.
+		\item $x · (0 + 0) = x0 + x0$, Modus Ponendo Ponens (MP) of 1.7 and 1.20.
+		\item $0 \in \RR \to (\exists ! 0)(0 \in \RR \land 0+0 = 0)$, Universal Specification of 1.1 with $(0/a)$.
+		\item $(\exists ! 0)(0 \in \RR \land 0+0 = 0)$, Modus Ponendo Ponens (MP) of 1.5 and 1.22.
+		\item $0 \in \RR \land 0+0 = 0$, Existential Specification of 1.23.
+		\item $0+0 = 0$, Simplification of 1.24.
+		\item $x · 0 = x0 + x0$, Identity of 1.21 and 1.25. ??????
+		\item $(\forall a,b)(a,b \in \RR \to a·b=b·a)$, M5.
+		\item $x,0 \in \RR \to x0=0x$, Universal Specification of 1.27 with $(x/a, 0/b)$.
+		\item $x0=0x$, Modus Ponendo Ponens (MP) of 1.7 and 1.28.
+		\item $0x = 0x + 0x$, Identity of 1.26 and 1.29. ??????
+		\item $(\forall a)(a \in \RR \to (\exists ! (-a))((-a)\in \RR \land a+(-a)=0))$, A4.
+		\item $0x \in \RR \to (\exists ! (-0x))((-0x)\in \RR \land 0x+(-0x)=0)$, Universal Specification of 1.31 with $(0x/a)$.
+		\item $0x \in \RR$, Identity 1.11 and 1.29. ??????
+		\item $(\exists ! (-0x))((-0x)\in \RR \land 0x+(-0x)=0)$, Modus Ponendo Ponens (MP) of 1.32 and 1.33.
+		\item $(-0x)\in \RR \land 0x+(-0x)=0$, Existential Specification of 1.34.
+		\item $(-0x)\in \RR$, Simplification of 1.35.
+		\item $0x+(-0x)=0$, Simplification of 1.35.
+		\item $0x, 0x+0x, -0x \in \RR \land 0x = 0x+0x \to 0x+(-0x)=0x+0x+(-0x)$, Universal Specification of 1.15 with $(0x/a, (0x+0x)/b, -0x/c)$.
+		\item $(\forall a, b)(a,b \in \RR \to (\exists ! (a + b))(a + b \in \RR))$, A1.
+		\item $0x \in \RR \to (\exists ! (0x + 0x))(0x + 0x \in \RR))$, Universal Specification of 1.39 with $(0x/a, 0x/b)$.
+		\item $(\exists ! (0x + 0x))(0x + 0x \in \RR))$, Modus Ponendo Ponens (MP) of 1.40 and 1.33.
+		\item $0x + 0x \in \RR$, Existential Specification of 1.41.
+		\item $0x, 0x+0x, -0x \in \RR \land 0x = 0x+0x$, Conjunction of 1.33, 1.42, 1.36 and 1.30.
+		\item $0x+(-0x)=0x+0x+(-0x)$, Modus Ponendo Ponens (MP) of 1.43 and 1.38.
+		\item $0=0x+0$, Identity of 1.37 and 1.44. ??????
+		\item $0x \in \RR \to (\exists ! 0)(0 \in \RR \land 0x+0 = 0x))$, Universal Specification of 1.1 with $(0x/a)$.
+		\item $(\exists ! 0)(0 \in \RR \land 0x+0 = 0x))$, Modus Ponendo Ponens (MP) of 1.33 and 1.46.
+		\item $0 \in \RR \land 0x+0 = 0x$, Existential Specification of 1.47.
+		\item $0x+0 = 0x$, Simplification of 1.48.
+		\item $0x=0$, Identity of 1.45 and 1.49. ??????
+	\end{enumerate}
+	\item $x \in \RR \to 0x=0$ Conditional Proposition from 1 to 1.50.
+	\item $(\forall x)(x \in \RR \to 0x=0)$ Universal Generalization of 2.
+\end{enumerate}
+
+$\therefore (\forall x)(x \in \RR \to 0x=0)$
+\end{proof}
+
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{Bibliography.bib}
+
+\addcontentsline{toc}{chapter}{Bibliography}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
